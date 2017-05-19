@@ -24,6 +24,7 @@ public class WeatherParser {
         String OWM_Temp = "temp";
         String OWM_Max = "max";
         String OWM_Min = "min";
+        String OWM_Humidity = "humidity";
         String OWM_description = "main";
 
         JSONObject forecastObj = new JSONObject(jsonWeather);
@@ -36,11 +37,11 @@ public class WeatherParser {
 
         for(int i =0; i<numDays; i++){
             //we are going to use the format: Day, description, min/max
-            String day, description, minmax;
+            String day, description, minmax, humidity;
             JSONObject dayForecast = weatherArray.getJSONObject(i);
             long dateTime;
             dateTime = dayTime.setJulianDay(julianStartDay + i);
-            SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd, MMM");
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd/M");
             day = sdf.format(dateTime);
 
             JSONObject o = dayForecast.getJSONArray(OWM_Weather).getJSONObject(0);
@@ -50,9 +51,13 @@ public class WeatherParser {
             double max = tempObj.getDouble(OWM_Max);
             double min = tempObj.getDouble(OWM_Min);
 
+            double humidityValue = dayForecast.getDouble(OWM_Humidity);
+
+            humidity = ""+Math.round(humidityValue);
+
             minmax = Math.round(min)+" - "+Math.round(max);
 
-            results[i] = day + " | "+ description+ " | "+minmax;
+            results[i] = day + " | "+ description+ " | "+minmax+" | Humid: "+humidity+" %";
         }
         for(int i=0; i<numDays; i++){
             Log.i(LOG_TAG, "Forecast Entry: " + results[i]);
