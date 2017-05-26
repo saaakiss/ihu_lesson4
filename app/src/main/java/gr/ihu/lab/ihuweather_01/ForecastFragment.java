@@ -1,5 +1,6 @@
 package gr.ihu.lab.ihuweather_01;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,8 +12,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -144,7 +147,7 @@ public class ForecastFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater,
+    public View onCreateView(final LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
@@ -161,6 +164,20 @@ public class ForecastFragment extends Fragment {
 
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {  //Onitemclickletserne is an interface and we instanciate anonymously
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final String item = adapter.getItem(position);
+
+                //Toast toast = Toast.makeText(getActivity(), Item, Toast.LENGTH_LONG);
+                //toast.show();
+
+                Intent intent = new Intent(getActivity(),DetailActivity.class); //messaging object, communicate with an other activity, can also pass objects to other activity
+                intent.putExtra(Intent.EXTRA_TEXT, item);
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }
