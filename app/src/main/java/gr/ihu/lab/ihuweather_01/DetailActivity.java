@@ -21,7 +21,7 @@ public class DetailActivity extends AppCompatActivity {
 
         if(savedInstanceState == null){
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.activity_detail, new PlaceHolderFragment())
+                    .add(R.id.container, new PlaceHolderFragment())
                     .commit();
         }
 
@@ -36,11 +36,11 @@ public class DetailActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
             Intent baklavaPackage = getActivity().getIntent();
-            View rootView =  inflater.inflate(R.layout.activity_detail, container, false);
+            View rootView =  inflater.inflate(R.layout.fragment_detail, container, false);
 
             if (baklavaPackage != null && baklavaPackage.hasExtra(Intent.EXTRA_TEXT)){
                 String baklava = baklavaPackage.getStringExtra(Intent.EXTRA_TEXT);
-                TextView textView = (TextView) rootView.findViewById(R.id.detail_text);
+                TextView textView = (TextView) rootView.findViewById(R.id.fragment_detail_text);
                 textView.setText(baklava);
             }
 
